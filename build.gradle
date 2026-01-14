@@ -16,7 +16,11 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	// owo-lib
 	maven { url 'https://maven.wispforest.io/releases/' }
+
+	// server-side translations
+	maven { url 'https://maven.nucleoid.xyz' }
 }
 
 loom {
@@ -51,6 +55,9 @@ dependencies {
 
 	// Oshi - MIT License
     implementation 'com.github.oshi:oshi-core:6.9.2'
+
+	// server-side translations
+	modImplementation include("xyz.nucleoid:server-translations-api:2.5.2+1.21.9-pre3")
 }
 
 processResources {

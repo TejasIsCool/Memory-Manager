@@ -13,21 +13,22 @@ import static com.tejasisamazing.utils.MemoryChecker.maxMemory;
 
 public class MemoryCommand {
 
+
     private static boolean memoryStopOngoing = false;
 
     private static int handleMemoryCommand(CommandSourceStack source) {
         if (CONFIG.MemoryConfig.memory()) {
             double memoryEstimate = getMemoryUsage();
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory_usage", memoryEstimate, maxMemory), false);
+            source.sendSuccess(() -> Component.translatable("memory_manager.memory_usage", memoryEstimate, maxMemory), true);
         } else {
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), false);
+            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), true);
         }
         return 0;
     }
 
     private static int handleClearCommand(CommandSourceStack source) {
         if (CONFIG.MemoryConfig.memoryClear()) {
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory_clear.start"), false);
+            source.sendSuccess(() -> Component.translatable("memory_manager.memory_clear.start"), true);
             double memory_before = getMemoryUsage();
 
             System.gc();
@@ -38,9 +39,9 @@ public class MemoryCommand {
             }
             System.gc();
 
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory_clear.over", memory_before - getMemoryUsage()), false);
+            source.sendSuccess(() -> Component.translatable("memory_manager.memory_clear.over", memory_before - getMemoryUsage()), true);
         } else {
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), false);
+            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), true);
         }
         return 0;
     }
@@ -49,9 +50,9 @@ public class MemoryCommand {
         if (CONFIG.MemoryConfig.memoryStop()) {
             if (!memoryStopOngoing) {
                 double memoryEstimate = getMemoryUsage();
-                source.sendSuccess(() -> Component.translatable("memory_manager.memory_usage", memoryEstimate, maxMemory), false);
+                source.sendSuccess(() -> Component.translatable("memory_manager.memory_usage", memoryEstimate, maxMemory), true);
                 if (memoryEstimate / maxMemory < CONFIG.MemoryConfig.memoryStopPercent()) {
-                    source.sendSuccess(() -> Component.translatable("memory_manager.memory_stop.not_enough"), false);
+                    source.sendSuccess(() -> Component.translatable("memory_manager.memory_stop.not_enough"), true);
                     return 0;
                 }
                 memoryStopOngoing = true;
@@ -63,7 +64,7 @@ public class MemoryCommand {
             // Ask other players for restarting!
 
         } else {
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), false);
+            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), true);
         }
         return 0;
     }
