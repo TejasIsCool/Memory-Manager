@@ -1,7 +1,0 @@
-{
-  "memory_manager.memory.disabled": "This command has been disabled!",
-  "memory_manager.memory_usage": "Memory Used: %s MB out of %s MB",
-  "memory_manager.memory_clear.start": "Starting to clear Memory!",
-  "memory_manager.memory_clear.over": "Cleared %s MB of memory!",
-  "memory_manager.memory_stop.not_enough": "Memory Usage not high enough to stop yet!"
-}

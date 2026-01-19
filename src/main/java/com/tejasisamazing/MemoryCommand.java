@@ -7,14 +7,13 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 
 import static com.tejasisamazing.MemoryManager.CONFIG;
+import static com.tejasisamazing.commands.MemoryRestart.*;
 import static com.tejasisamazing.utils.MemoryChecker.getMemoryUsage;
 import static com.tejasisamazing.utils.MemoryChecker.maxMemory;
 
 
 public class MemoryCommand {
 
-
-    private static boolean memoryStopOngoing = false;
 
     private static int handleMemoryCommand(CommandSourceStack source) {
         if (CONFIG.MemoryConfig.memory()) {
@@ -46,29 +45,6 @@ public class MemoryCommand {
         return 0;
     }
 
-    private static int handleStopCommand(CommandSourceStack source) {
-        if (CONFIG.MemoryConfig.memoryStop()) {
-            if (!memoryStopOngoing) {
-                double memoryEstimate = getMemoryUsage();
-                source.sendSuccess(() -> Component.translatable("memory_manager.memory_usage", memoryEstimate, maxMemory), true);
-                if (memoryEstimate / maxMemory < CONFIG.MemoryConfig.memoryStopPercent()) {
-                    source.sendSuccess(() -> Component.translatable("memory_manager.memory_stop.not_enough"), true);
-                    return 0;
-                }
-                memoryStopOngoing = true;
-//                serverPlayer executing_player = source.getPlayer();
-            } else {
-
-            }
-
-            // Ask other players for restarting!
-
-        } else {
-            source.sendSuccess(() -> Component.translatable("memory_manager.memory.disabled"), true);
-        }
-        return 0;
-    }
-
 
     public static void init() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
@@ -76,12 +52,22 @@ public class MemoryCommand {
                 Commands.literal("memory")
                     .requires(Permissions.require("memory_manager.command.memory", 0))
                     .executes(context -> handleMemoryCommand(context.getSource()))
+
                     .then(Commands.literal("clear")
                         .requires(Permissions.require("memory_manager.command.memory_clear", 0))
                         .executes(context -> handleClearCommand(context.getSource())))
-//                    .then(Commands.literal("stop")
-//                        .requires(Permissions.require("memory_manager.command.memory_stop", 0))
-//                        .executes(context -> handleStopCommand(context.getSource())))
+
+                    .then(Commands.literal("restart")
+                        .requires(Permissions.require("memory_manager.command.memory_restart", 0))
+                        .executes(context -> handleRestartCommand(context.getSource()))
+                        .then(Commands.literal("force").requires(Permissions.require("memory_manager.command.memory_restart.force", 4))
+                            .executes(context -> handleForcedRestartCommand(context.getSource()))
+                        )
+                        .then(Commands.literal("cancel").requires(Permissions.require("memory_manager.command.memory_restart.cancel", 4))
+                            .executes(context -> restartCanceller(context.getSource()))
+                        )
+                    )
+                    // Optional force parameter
             );
         });
     }
