@@ -8,8 +8,9 @@
 		"TejasisAmazing"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+
+		"homepage": "https://github.com/TejasIsCool/Memory-Manager",
+		"sources": "https://github.com/TejasIsCool/Memory-Manager"
 	},
 	"license": "MIT",
 	"icon": "assets/memory-manager/icon.png",
@@ -17,17 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"com.tejasisamazing.MemoryManager"
-		],
-		"client": [
-			"com.tejasisamazing.MemoryManagerClient"
 		]
 	},
 	"mixins": [
-		"memory-manager.mixins.json",
-		{
-			"config": "memory-manager.client.mixins.json",
-			"environment": "client"
-		}
 	],
 	"depends": {
 		"fabricloader": ">=0.17.0",

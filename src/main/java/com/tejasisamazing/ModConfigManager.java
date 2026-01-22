@@ -46,6 +46,8 @@ public class ModConfigManager {
 
             public int restartingInXSeconds = 30;
 
+            public String additionalRestartMessage = "Recommended to not start/stop complex redstone contraptions";
+
             @Comment("Enter a command that gets runs to restart server (usually using a script). Set restartingChoice to 1 for this")
             public String restartTerminalCommand = "";
 

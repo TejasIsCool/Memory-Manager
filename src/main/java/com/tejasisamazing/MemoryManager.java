@@ -2,7 +2,7 @@ package com.tejasisamazing;
 
 import com.tejasisamazing.utils.TaskScheduler;
 import net.fabricmc.api.ModInitializer;
-
+import com.tejasisamazing.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

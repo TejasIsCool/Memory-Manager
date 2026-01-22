@@ -128,6 +128,7 @@ public class MemoryRestart {
                     "memory_manager.memory_restart.threshold_reached",
                     restartTime
                 ).withStyle(ChatFormatting.YELLOW), false);
+                source.getServer().getPlayerList().broadcastSystemMessage(Component.literal(CONFIG.MemoryConfig.MemoryRestartConfig.additionalRestartMessage()), false);
 
                 if (restartTime > 5) {
                     TaskScheduler.scheduleTask(restartTime - 5, "restart", () -> {
@@ -176,7 +177,6 @@ public class MemoryRestart {
         return Util.getMillis() - timeStart;
     }
 
-    // TODO: Way of cancelling forced restarts
 
     public static void appropriateRestarter(CommandSourceStack source, boolean force) {
         // Potentially can add different things happening if force is true, but not sure what now

@@ -18,5 +18,7 @@
 
   "memory_manager.memory_restart_force.restartinginxseconds": "Restarting the server in %s seconds!",
 
-  "memory_manager.memory_restart.cancel": "The scheduled restart has been cancelled by an administrator."
+  "memory_manager.memory_restart.cancel": "The scheduled restart has been cancelled by an administrator.",
+
+  "memory_manager.reload_config": "Config Reloaded!"
 }

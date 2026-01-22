@@ -31,8 +31,9 @@ public class MemoryCommand {
             double memory_before = getMemoryUsage();
 
             System.gc();
+            // Waiting a few seconds, so objects can finalize more.
             try {
-                Thread.sleep(1200L);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
@@ -54,20 +55,29 @@ public class MemoryCommand {
                     .executes(context -> handleMemoryCommand(context.getSource()))
 
                     .then(Commands.literal("clear")
-                        .requires(Permissions.require("memory_manager.command.memory_clear", 0))
+                        .requires(Permissions.require("memory_manager.command.clear", 0))
                         .executes(context -> handleClearCommand(context.getSource())))
 
                     .then(Commands.literal("restart")
-                        .requires(Permissions.require("memory_manager.command.memory_restart", 0))
+                        .requires(Permissions.require("memory_manager.command.restart", 0))
                         .executes(context -> handleRestartCommand(context.getSource()))
-                        .then(Commands.literal("force").requires(Permissions.require("memory_manager.command.memory_restart.force", 4))
+                        .then(Commands.literal("force").requires(Permissions.require("memory_manager.command.restart.force", 4))
                             .executes(context -> handleForcedRestartCommand(context.getSource()))
                         )
-                        .then(Commands.literal("cancel").requires(Permissions.require("memory_manager.command.memory_restart.cancel", 4))
+                        .then(Commands.literal("cancel").requires(Permissions.require("memory_manager.command.restart.cancel", 4))
                             .executes(context -> restartCanceller(context.getSource()))
                         )
                     )
-                    // Optional force parameter
+
+                    .then(Commands.literal("reloadConfig")
+                        .requires(Permissions.require("memory_manager.command.reloadConfig", 4))
+                        .executes(context -> {
+                            CONFIG.load();
+                            context.getSource().sendSuccess(()->Component.translatable("memory_manager.reload_config"), false);
+                            return 0;
+                        })
+                    )
+
             );
         });
     }
